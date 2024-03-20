@@ -26,6 +26,6 @@ class Server:
 if __name__ == '__main__':
     server = Server(url='http://178.16.143.126:8000/get_samples')
 
-    server.send({'num_samples': 100})
+    server.send({'num_samples': 1})
 
     print(server.extract_csv_row_list())
