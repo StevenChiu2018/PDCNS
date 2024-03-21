@@ -7,7 +7,7 @@ diseases = ['chlamydia', 'gonorrhoea', 'syphilis', 'herpes', 'hiv', 'healthy']
 disease_data = DiseaseData(
     '/mnt/c/Users/Steven/Desktop/data/projects/CSE568BIO/Assign2/data=1000000', N)
 
-disguised_statistical = disease_data.retrieve_data()
+disguised_statistical = disease_data.retrieve_disease_statistical()
 
 reconstructed_statistical = {
     disease: N - ((len(diseases) - 1) * disguised_statistical[disease]) for disease in diseases}
