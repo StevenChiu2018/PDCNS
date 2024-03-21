@@ -5,7 +5,11 @@ import statsmodels.stats.proportion as confidence_interval_calculator
 
 N = 1000000
 diseases = ['chlamydia', 'gonorrhoea', 'syphilis', 'herpes', 'hiv', 'healthy']
-probability = [10, 10, 10, 0, 20, 0]
+probability = [1, 1, 1, 1, 1, 1]
+exclude_self_probability = []
+total = sum(probability)
+for cur_probability in probability:
+    exclude_self_probability.append(total - cur_probability)
 disease_data = DiseaseData('http://178.16.143.126:8000/get_samples',
                            '/mnt/c/Users/Steven/Desktop/data/projects/CSE568BIO/Assign2/data=1000000', N)
 
@@ -16,14 +20,14 @@ disguised_statistical = {disease: 0 for disease in diseases}
 print('\n')
 
 reconstructed_statistical = {
-    disease: N - ((len(diseases) - 1) * disguised_statistical[disease]) for disease in diseases}
+    disease: N - ((len(diseases) - 1) * old_disguised_statistical[disease]) for disease in diseases}
 
 for i, disease in enumerate(diseases):
-    for _ in range(reconstruct_number):
+    for _ in range(reconstructed_statistical[disease]):
         while True:
-            choice = random.choices(range(len(diseases)), probability)
-            if choice != i:
-                disguised_statistical[disease] += 1
+            new_disease = random.choices(diseases, probability)[0]
+            if new_disease != disease:
+                disguised_statistical[new_disease] += 1
                 break
 
 print(old_disguised_statistical)
@@ -31,8 +35,10 @@ print(disguised_statistical)
 
 reconstructed_statistical = {}
 
+
 for i, disease in enumerate(diseases):
-    possibility = 0 if probability[i] == 0 else (50.0 / probability[i])
+    possibility = 0 if probability[i] == 0 else (
+        exclude_self_probability[i] / probability[i])
     reconstructed_statistical[disease] = N - \
         disguised_statistical[disease] * possibility
 
