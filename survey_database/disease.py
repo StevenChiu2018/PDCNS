@@ -24,8 +24,6 @@ class Disease:
             else:
                 statistical[disease] = 1
 
-            print('Left ' + str(num) + ' records to be read', end='\r')
-
             num -= 1
             row_count += 1
 
