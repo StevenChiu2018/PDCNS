@@ -7,30 +7,52 @@ class Disease:
         self.server = Server(url)
         self.filename: str = filename
         self.num: int = num
-        self.result = None
+        self.statistical = None
 
-    def retrieve_data(self):
+    def retrieve_row(self):
         if not os.path.exists(self.filename):
             self.write_to_file()
 
         f = open(file=self.filename, mode='r')
-        statistical = {}
+        rows = []
         num = self.num
 
         while num > 0:
             row = f.readline()
             disease = row.split(',')[0]
 
-            if disease in statistical:
-                statistical[disease] += 1
+            rows.append(disease)
+
+            num -= 1
+
+        return rows
+
+    def retrieve_data(self):
+        if not os.path.exists(self.filename):
+            self.statistical = None
+            self.write_to_file()
+
+        if not self.statistical is None:
+            return self.statistical
+
+        f = open(file=self.filename, mode='r')
+        self.statistical = {}
+        num = self.num
+
+        while num > 0:
+            row = f.readline()
+            disease = row.split(',')[0]
+
+            if disease in self.statistical:
+                self.statistical[disease] += 1
             else:
-                statistical[disease] = 1
+                self.statistical[disease] = 1
 
             print('Left ' + str(num) + ' records to be read', end='\r')
 
             num -= 1
 
-        return statistical
+        return self.statistical
 
     def write_to_file(self):
         f = open(file=self.filename, mode='w')
