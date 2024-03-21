@@ -1,4 +1,5 @@
 from survey_database import Disease as DiseaseData
+import statsmodels.stats.proportion as confidence_interval_calculator
 
 N = 1000000
 
@@ -28,10 +29,17 @@ for row in disguised_data.retrieve_rows():
     else:
         herpes_city[f'{has_herpes_string} {row[1]}'] = 1
 
+prevalence_result = []
 for city in ['Mesa', 'Tempe', 'Scottsdale', 'Phoenix', 'Chandler']:
     prevalence = N - (herpes['yes'] + 4 * cities[city] -
                       4 * herpes_city[f'yes {city}'])
     print(city)
     print('\tY: ' + str(herpes_city[f'yes {city}']))
     print('\tA: ' + str(prevalence))
-    print('\tRate: ' + str(prevalence / N))
+    print('\tRate: ' + str(prevalence * 100 / N))
+    prevalence_result.append(prevalence)
+
+confidence_interval = confidence_interval_calculator.multinomial_proportions_confint(
+    counts=prevalence_result, alpha=0.01)
+
+print(confidence_interval)
