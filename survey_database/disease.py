@@ -3,8 +3,8 @@ from survey_database.server import Server
 
 
 class Disease:
-    def __init__(self, url: str, filename: str, num) -> None:
-        self.server = Server(url)
+    def __init__(self, filename: str, num: int) -> None:
+        self.server = Server('http://178.16.143.126:8000/get_samples')
         self.filename: str = filename
         self.num: int = num
         self.result = None

@@ -4,8 +4,8 @@ import statsmodels.stats.proportion as confidence_interval_calculator
 
 N = 1000000
 diseases = ['chlamydia', 'gonorrhoea', 'syphilis', 'herpes', 'hiv', 'healthy']
-disease_data = DiseaseData('http://178.16.143.126:8000/get_samples',
-                           '/mnt/c/Users/Steven/Desktop/data/projects/CSE568BIO/Assign2/data=1000000', N)
+disease_data = DiseaseData(
+    '/mnt/c/Users/Steven/Desktop/data/projects/CSE568BIO/Assign2/data=1000000', N)
 
 disguised_statistical = disease_data.retrieve_data()
 
