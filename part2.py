@@ -33,13 +33,15 @@ for row in disguised_data.retrieve_rows():
 start_at = time.time()
 prevalence_result = []
 for city in ['Mesa', 'Tempe', 'Scottsdale', 'Phoenix', 'Chandler']:
-    prevalence = N - (herpes['yes'] + 4 * cities[city] -
-                      4 * herpes_city[f'yes {city}'])
+    prevalence = N - (5 * herpes['yes'] + 4 * cities[city] -
+                      20 * herpes_city[f'yes {city}'])
     print(city)
     print('\tY: ' + str(herpes_city[f'yes {city}']))
     print('\tA: ' + str(prevalence))
     print('\tRate: ' + str(prevalence * 100 / N))
     prevalence_result.append(prevalence)
+
+prevalence_result.append(N - sum(prevalence_result))
 
 confidence_interval = confidence_interval_calculator.multinomial_proportions_confint(
     counts=prevalence_result, alpha=0.01)
